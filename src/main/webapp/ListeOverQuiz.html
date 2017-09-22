@@ -66,8 +66,12 @@
 </div>
 
 <script>
+    function myFunction(i) {
+        window.location = href="LiveSporsmalsside.html?i=" + i;
+    }
 
-    $("#done_quiz").click(function () {
+    $(document).ready(function(){
+
         $.ajax({
             url: 'rest/Quiz',
             type: 'GET',
@@ -78,20 +82,14 @@
                 console.log(result);
                 var html="";
                 for(var i=0; i<data.length;i++){
-                    html += "<tr><td>" + data[i].name + "</td><td>" + new Date(data[i].time) + "</td>" + "<td><button class ='btn btn-default' onclick='joinFunction(" + i + ")' >" + 'Join!'+
-                    "</button></td></tr>";
+                    html += "<tr><td>" + data[i].name + "</td><td>" + new Date(data[i].time) + "</td>" + "<td><button class ='btn btn-default' onclick = 'myFunction(" + i + ")' >" + 'Join!'+
+                            "</button></td></tr>";
                 }
-
                 $("#table_cnt").html(html);
             }
-        }, 60000);
+        }, 1000);
 
-
-    function joinFunction(i) {
-        window.location = "LiveSporsmalsside.html?i=" + i;
-        }
     });
-
 </script>
 
 <div style="position:relative">
@@ -102,5 +100,4 @@
     body{
         background-color: orangered;
     }
-
 </style>

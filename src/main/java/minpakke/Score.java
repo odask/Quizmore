@@ -18,6 +18,14 @@ public class Score implements Serializable {
         return poengsum;
     }
 
+    public void setKallenavn(String kallenavn) {
+        this.kallenavn = kallenavn;
+    }
+
+    public void setPoengsum(int poengsum) {
+        this.poengsum = poengsum;
+    }
+
     public String getKallenavn(){
         return kallenavn;
     }
