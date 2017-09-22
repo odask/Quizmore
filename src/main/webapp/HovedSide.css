@@ -1,0 +1,25 @@
+.jumbotron{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+}
+
+div.buttons{
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+}
+
+.jumbotron h1{
+    font-size: 190px;
+}
+
+.jumbotron h5{
+    font-size: 20px;
+    font-style: inherit;
+}
+

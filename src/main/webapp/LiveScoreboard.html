@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Live scoreboard</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="Style.css">
+    <link rel="stylesheet" href="LiveScoreboard.css.css">
+    <script src="OpprettQuiz.js"></script>
+</head>
+<body>
+
+<style>
+    .navbar{
+        margin-bottom: 0;
+        border-radius: 0;
+    }
+</style>
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">Quizmore</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="index.html">Home</a></li>
+                <li><a href="ListeOverQuiz.html">List of Quiz</a></li>
+                <li><a href="OpprettQuiz.html">Create Quiz</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="LogIn.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="jumbotron">
+    <h1 align="center">Scoreboard</h1>
+    <h5 align="center">Results for choosen quiz</h5>
+</div>
+
+
+
+<div class="container">
+        <table id="resultTable" class="table">
+            <thead>
+            <tr>
+                <th class="position">Ranking</th><th class="namePlayer">Name of player</th><th class="scorePlayer">Score</th>
+            </tr>
+            </thead>
+        </table>
+</div>
+
+
+
+
+<div align="center" class="back_button">
+    <a type="button" class="btn btn-default" href="ListeOverQuiz.html">Go back</a>
+</div>
+
+<div style="position:relative">
+    <p style="position: fixed; bottom: 0; width: 100%; text-align: center;"> Designed by Oda Steinland Skaug</p>
+</div>
+
+<style type = "text/css">
+    body{
+        background-color: orangered;
+    }
+
+</style>
