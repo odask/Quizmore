@@ -11,101 +11,65 @@
     <link rel="stylesheet" href="Style.css">
 </head>
 
-    <style>
-        .navbar{
-            margin-bottom: 0;
-            border-radius: 0;
-        }
-    </style>
+<style>
+    .navbar{
+        margin-bottom: 0;
+        border-radius: 0;
+    }
+</style>
 
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="index.html">Quizmore</a>
-            </div>
-            <div class="collapse navbar-collapse" id="myNavbar">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="index.html">Home</a></li>
-                    <li><a href="ListeOverQuiz.html">List of Quiz</a></li>
-                    <li><a href="OpprettQuiz.html">Create Quiz</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="LogIn.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                </ul>
-            </div>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">Quizmore</a>
         </div>
-    </nav>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="index.html">Home</a></li>
+                <li><a href="ListeOverQuiz.html">List of Quiz</a></li>
+                <li><a href="OpprettQuiz.html">Create Quiz</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="LogIn.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
 <div class="jumbotron">
     <h1 align="center"> Live quizsite</h1>
     <h5 align="center"> Next quiz will start in: </h5>
 </div>
 
-    <div class="wrapper">
 
-            <div class="table-responsive col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <table class="table">
-                    <tbody>
-                    <tr>
-
-                        <td>
-                            <label>Question</label>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <label for="radio1">1.</label>
-                            <input type="radio" name="radios" id="radio1" />
-                        </td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="radio2">2.</label>
-                            <input type="radio" name="radios" id="radio2" />
-
-                        </td>
-                        <td></td>
-
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="radio3">3.</label>
-                            <input type="radio" name="radios" id="radio3" />
-
-                        </td>
-                        <td></td>
-
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="radio4">4.</label>
-                            <input type="radio" name="radios" id="radio4" />
-                        </td>
-                        <td></td>
-
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-
+    <div class="table-responsive col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <table id = "answerTable" class="table">
+            <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 
 
 
 
-    <!-- Display the countdown timer in an element -->
+
+
+<!-- Display the countdown timer in an element -->
 <div id= "nextQuiz" class="nextQuiz">
     <p id="timerLiveQuizNextQuiz"></p>
 </div>
 
 
 <script>
+
     $.ajax({
         url: 'rest/Quiz',
         type: 'GET',
@@ -116,35 +80,87 @@
             console.log(result);
             // Set the date we're counting down to
             countDownDate = new Date(data[Number(window.location.href.split("=")[1])].time).getTime();
-
             // Update the count down every 1 second
             var x = setInterval(function () {
-
                 var now = new Date().getTime();
-
                 // Find the distance between now an the count down date
                 var distance = countDownDate - now;
-
                 // Time calculations for days, hours, minutes and seconds
                 var days = Math.floor(distance / (1000 * 60 * 60 * 24));
                 var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
                 // Display the result in the element with id="demo"
                 document.getElementById("nextQuiz").innerHTML = days + "d " + hours + "h "
                         + minutes + "m " + seconds + "s ";
-
                 // If the count down is finished, write some text
 
                 if (distance < 0) {
                     clearInterval(x);
                     document.getElementById("nextQuiz").innerHTML = "Nå begynner quizen!!!";
                 }
-
             }, 1000);
         }
     });
+
+
+    $.ajax({
+        url: 'rest/Quiz',
+        type: 'GET',
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        success: function (data) {
+            var objects = [];
+
+            objects.questions = [];
+            objects.answers = [];
+            objects.checkboxes = [];
+
+            var tableQuestions = data.questions;
+            var tableAnswers = data.answers;
+            var tableCheckboxes = data.checkboxes;
+
+            var ansTable = [];
+            var checkTable = [];
+
+            for(var i = 0; i < tableAnswers.length; i += 4){
+                ansTable.get([
+                    $(tableAnswers[i]).val(),
+                    $(tableAnswers[i+1]).val(),
+                    $(tableAnswers[i+2]).val(),
+                    $(tableAnswers[i+3]).val()
+
+                ]);
+
+                checkTable.get([
+                    $(tableCheckboxes[i]).is(":checked") ? 1 : 0,
+                    $(tableCheckboxes[i+1]).is(":checked") ? 1 : 0,
+                    $(tableCheckboxes[i+2]).is(":checked") ? 1 : 0,
+                    $(tableCheckboxes[i+3]).is(":checked") ? 1 : 0
+                ]);
+            }
+
+            var questionsTable = [];
+            for(i = 0; i <questionsTable.length; i ++){
+                questionsTable.get({
+                    questions: $(tableQuestions).val(),
+                    answers: ansTable[i],
+                    checkboxes: checkTable[i]
+                })
+            }
+
+            var newData = JSON.stringify(JSON.parse(questionsTable));
+            console.log(questionsTable);
+
+            var html = "";
+            for (var i = 0; i < newData.length; i++) {
+                html += "<tr><td>" + newData[i].answers + "</td></tr>";
+            }
+            $("#answerTable").html(html);
+        }
+    });
+
+
 
 </script>
 
@@ -157,5 +173,4 @@
     body{
         background-color: orangered;
     }
-
 </style>
