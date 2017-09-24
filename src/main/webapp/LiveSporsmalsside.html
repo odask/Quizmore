@@ -75,8 +75,10 @@
         type: 'GET',
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
+
         success: function (result) {
             data = result;
+
             console.log(result);
             // Set the date we're counting down to
             countDownDate = new Date(data[Number(window.location.href.split("=")[1])].time).getTime();
@@ -96,67 +98,59 @@
                 // If the count down is finished, write some text
 
                 if (distance < 0) {
+                    data = data[0];
                     clearInterval(x);
-                    document.getElementById("nextQuiz").innerHTML = "Nå begynner quizen!!!";
+
+                    var tabellSpørsmålSide = [];
+
+                    tabellSpørsmålSide.questions = [];
+                    tabellSpørsmålSide.answers = [];
+                    tabellSpørsmålSide.checkboxes = [];
+
+                    var tableQuestions = data.questions[i];
+                    var tableAnswers = data.answers;
+                    var tableCheckboxes = data.checkboxes[i];
+
+                    var ansTable = [];
+                    var checkTable = [];
+
+                    for(var i = 0; i < tableAnswers.length; i += 4){
+                        ansTable.push([
+                            $(tableAnswers[i]).val(),
+                            $(tableAnswers[i+1]).val(),
+                            $(tableAnswers[i+2]).val(),
+                            $(tableAnswers[i+3]).val()
+                        ]);
+                        checkTable.push([
+                            $(tableCheckboxes[i]).is(":checked") ? 1 : 0,
+                            $(tableCheckboxes[i+1]).is(":checked") ? 1 : 0,
+                            $(tableCheckboxes[i+2]).is(":checked") ? 1 : 0,
+                            $(tableCheckboxes[i+3]).is(":checked") ? 1 : 0
+                        ]);
+                    }
+
+                    var questionsTable = [];
+                    for(i = 0; i <questionsTable.length; i ++){
+                        questionsTable.get({
+                            questions: $(tableQuestions).val(),
+                            answers: ansTable[i],
+                            checkboxes: checkTable[i]
+                        })
+                    }
+
+                    var newData = JSON.stringify(questionsTable);
+                    var newData1 = JSON.parse(newData);
+
+                    console.log(questionsTable);
+
+                    var html = "";
+                    for (var i = 0; i < newData1.length; i++) {
+                        html += "<tr><td>" + newData[i].questions + "</td></tr><tr><td>" + newData[i].checkboxes + "</td><td>" + newData[i].answers+ "</td></tr>";
+                    }
+                    $("#answerTable").html(html);
                 }
+
             }, 1000);
-        }
-    });
-
-
-    $.ajax({
-        url: 'rest/Quiz',
-        type: 'GET',
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        success: function (data) {
-            var objects = [];
-
-            objects.questions = [];
-            objects.answers = [];
-            objects.checkboxes = [];
-
-            var tableQuestions = data.questions;
-            var tableAnswers = data.answers;
-            var tableCheckboxes = data.checkboxes;
-
-            var ansTable = [];
-            var checkTable = [];
-
-            for(var i = 0; i < tableAnswers.length; i += 4){
-                ansTable.get([
-                    $(tableAnswers[i]).val(),
-                    $(tableAnswers[i+1]).val(),
-                    $(tableAnswers[i+2]).val(),
-                    $(tableAnswers[i+3]).val()
-
-                ]);
-
-                checkTable.get([
-                    $(tableCheckboxes[i]).is(":checked") ? 1 : 0,
-                    $(tableCheckboxes[i+1]).is(":checked") ? 1 : 0,
-                    $(tableCheckboxes[i+2]).is(":checked") ? 1 : 0,
-                    $(tableCheckboxes[i+3]).is(":checked") ? 1 : 0
-                ]);
-            }
-
-            var questionsTable = [];
-            for(i = 0; i <questionsTable.length; i ++){
-                questionsTable.get({
-                    questions: $(tableQuestions).val(),
-                    answers: ansTable[i],
-                    checkboxes: checkTable[i]
-                })
-            }
-
-            var newData = JSON.stringify(JSON.parse(questionsTable));
-            console.log(questionsTable);
-
-            var html = "";
-            for (var i = 0; i < newData.length; i++) {
-                html += "<tr><td>" + newData[i].answers + "</td></tr>";
-            }
-            $("#answerTable").html(html);
         }
     });
 
