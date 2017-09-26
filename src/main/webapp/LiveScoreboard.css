@@ -1,9 +1,16 @@
 div.container{
-    position: absolute;
     width: 500px;
     top: 50%;
     left: 50%;
     margin-right: -50%;
     transform: translate(-50%, -50%);
     background-color: white;
+}
+
+div.back_button{
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
 }

@@ -8,8 +8,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="Style.css">
-    <link rel="stylesheet" href="LiveScoreboard.css.css">
-    <script src="OpprettQuiz.js"></script>
+    <link rel="stylesheet" href="LiveScoreboard.css">
+
 </head>
 <body>
 
@@ -49,18 +49,56 @@
 
 
 
+
 <div class="container">
-        <table id="resultTable" class="table">
-            <thead>
-            <tr>
-                <th class="position">Ranking</th><th class="namePlayer">Name of player</th><th class="scorePlayer">Score</th>
-            </tr>
-            </thead>
-        </table>
+    <table id= "totalResultTable" class="table table-striped">
+        <thead>
+        <tr>
+            <th>Position</th>
+            <th>Nick</th>
+            <th>Score</th>
+        </tr>
+        </thead>
+        <tbody id="resultTable">
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 
 
 
+<script>
+function fillResults() {
+    var html="";
+    for(var i=0; i<data.length;i++){
+        html += "<tr>" +
+                "<td>" + (i+1) + "</td>" +
+                "<td>" + data[i].kallenavn + "</td>" +
+                "<td>" + data[i].poengsum + "</td>" +
+                "</tr>";
+    }
+    $("#resultTable").html(html);
+}
+
+$.ajax({
+    url: 'rest/Quiz/Score',
+    type: 'GET',
+    contentType: 'application/json; charset=utf-8',
+    dataType: 'json',
+
+    success: function (result) {
+    data = result;
+    console.log(result);
+        fillResults()
+
+}
+})
+</script>
 
 <div align="center" class="back_button">
     <a type="button" class="btn btn-default" href="ListeOverQuiz.html">Go back</a>

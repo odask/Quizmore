@@ -46,29 +46,95 @@
 </div>
 
 
-    <div class="table-responsive col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <table id = "answerTable" class="table">
-            <tbody>
-            <tr>
-                <td></td>
-                <td></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+<div  id = "answerDiv"  align="center"></div>
 
-
-
-
-
+<button class="submit" onclick="return countScore();" type="submit">Submit</button>
 
 <!-- Display the countdown timer in an element -->
 <div id= "nextQuiz" class="nextQuiz">
     <p id="timerLiveQuizNextQuiz"></p>
 </div>
 
+<div align="left" id= "nextquestion"></div>
 
 <script>
+var count = 0;
+var data;
+
+    function getQuestionHtml() {
+
+        var tableQuestions = data.questions[count];
+        var tableAnswers = data.questions[count].answers;
+        var tableCheckboxes = data.questions[count].checkboxes;
+
+
+        var html = tableQuestions.questions + "<br>";
+        for (var i = 0; i < tableAnswers.length; i++) {
+            html += (i + 1) + ". " + "<input type= 'radio'  name='questionAnswer' value =' " + i + " ' >" + "  " + tableAnswers[i] + "<br>";
+        }
+        return html;
+
+    }
+
+    function myfunctionGetQuestions() {
+        data = data[Number(("" + window.location).split("=")[1])];
+        console.log(data.name);
+
+        $("#answerDiv").html(getQuestionHtml());
+
+        var answersLength = data.questions.length;
+
+        var timeQuestion = data.timePerQuestion;
+        var intervall = setInterval(function () {
+            document.getElementById("nextquestion").innerHTML = timeQuestion;
+            if (timeQuestion == 0) {
+
+                if(count==(answersLength-1)) {
+                    clearInterval(intervall);
+
+                }else{
+                    count++;
+                    timeQuestion = data.timePerQuestion;
+                    $("#answerDiv").html(getQuestionHtml());
+                }
+
+            } else {
+                timeQuestion--;
+            }
+            console.log("count=" + count + ", timeQuestion=" + timeQuestion);
+        }, 1000);
+    }
+
+function timeLeftTilQuiz(){
+        // Set the date we're counting down to
+        countDownDate = new Date(data[Number(window.location.href.split("=")[1])].time).getTime();
+
+        // Update the count down every 1 second
+        var x = setInterval(function () {
+        var now = new Date().getTime();
+
+        // Find the distance between now an the count down date
+        var distance = countDownDate - now;
+
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Display the result in the element with id="demo"
+        document.getElementById("nextQuiz").innerHTML = days + "d " + hours + "h "
+                + minutes + "m " + seconds + "s ";
+        // If the count down is finished, write some text
+
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("nextQuiz").innerHTML = "Quizen er i gang!"
+            myfunctionGetQuestions();
+
+        }
+    },  1000);
+}
 
     $.ajax({
         url: 'rest/Quiz',
@@ -78,82 +144,40 @@
 
         success: function (result) {
             data = result;
-
             console.log(result);
-            // Set the date we're counting down to
-            countDownDate = new Date(data[Number(window.location.href.split("=")[1])].time).getTime();
-            // Update the count down every 1 second
-            var x = setInterval(function () {
-                var now = new Date().getTime();
-                // Find the distance between now an the count down date
-                var distance = countDownDate - now;
-                // Time calculations for days, hours, minutes and seconds
-                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                // Display the result in the element with id="demo"
-                document.getElementById("nextQuiz").innerHTML = days + "d " + hours + "h "
-                        + minutes + "m " + seconds + "s ";
-                // If the count down is finished, write some text
-
-                if (distance < 0) {
-                    data = data[0];
-                    clearInterval(x);
-
-                    var tabellSpørsmålSide = [];
-
-                    tabellSpørsmålSide.questions = [];
-                    tabellSpørsmålSide.answers = [];
-                    tabellSpørsmålSide.checkboxes = [];
-
-                    var tableQuestions = data.questions[i];
-                    var tableAnswers = data.answers;
-                    var tableCheckboxes = data.checkboxes[i];
-
-                    var ansTable = [];
-                    var checkTable = [];
-
-                    for(var i = 0; i < tableAnswers.length; i += 4){
-                        ansTable.push([
-                            $(tableAnswers[i]).val(),
-                            $(tableAnswers[i+1]).val(),
-                            $(tableAnswers[i+2]).val(),
-                            $(tableAnswers[i+3]).val()
-                        ]);
-                        checkTable.push([
-                            $(tableCheckboxes[i]).is(":checked") ? 1 : 0,
-                            $(tableCheckboxes[i+1]).is(":checked") ? 1 : 0,
-                            $(tableCheckboxes[i+2]).is(":checked") ? 1 : 0,
-                            $(tableCheckboxes[i+3]).is(":checked") ? 1 : 0
-                        ]);
-                    }
-
-                    var questionsTable = [];
-                    for(i = 0; i <questionsTable.length; i ++){
-                        questionsTable.get({
-                            questions: $(tableQuestions).val(),
-                            answers: ansTable[i],
-                            checkboxes: checkTable[i]
-                        })
-                    }
-
-                    var newData = JSON.stringify(questionsTable);
-                    var newData1 = JSON.parse(newData);
-
-                    console.log(questionsTable);
-
-                    var html = "";
-                    for (var i = 0; i < newData1.length; i++) {
-                        html += "<tr><td>" + newData[i].questions + "</td></tr><tr><td>" + newData[i].checkboxes + "</td><td>" + newData[i].answers+ "</td></tr>";
-                    }
-                    $("#answerTable").html(html);
-                }
-
-            }, 1000);
+            timeLeftTilQuiz();
         }
-    });
+    })
 
+$(document).ready(function() {
+    var nick;
+    var person = prompt("Please enter a name: ", "Give yourself a cool nickname!");
+    console.log(person)
+    if (person == null || person == "") {
+        alert("Cancelled or written an false nick");
+    } else {
+        nick = person;
+        if (nick) {
+            $.ajax({
+                url: 'rest/Quiz/Score',
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                data: JSON.stringify({
+                    kallenavn: nick,
+                    poengsum: "0"
+                }),
+                success: console.log,
+                error: console.log
+            });
+        }
+    }
+})
+
+function countScore() {
+    var score = document.querySelector('input[name="questionAnswer"]:checked').value;
+    alert(score + ' was selected!');
+}
 
 
 </script>

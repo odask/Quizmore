@@ -46,17 +46,20 @@
     <h5 align="center">or you can join a quiz! Remember to see when the quiz is starting so you are ready.</h5>
 </div>
 
+<h3 align="center">List of future quizes</h3>
 <div class="container">
-    <table id= "quizTabel" class="table table-striped">
+    <table id= "quizTabelNotStarted" class="table table-striped">
         <thead>
         <tr>
             <th>Name of quiz</th>
             <th>Start time</th>
+            <th>Results</th>
             <th>Join!</th>
         </tr>
         </thead>
-        <tbody id="table_cnt">
+        <tbody id="table_cntNotstarted">
         <tr>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>
@@ -65,13 +68,54 @@
     </table>
 </div>
 
+<h3 align="center">List of previous quizes</h3>
+<div class="container">
+    <table id= "quizTablefinished" class="table table-striped">
+        <thead>
+        <tr>
+            <th>Name of quiz</th>
+            <th>Start time</th>
+            <th>Results</th>
+
+        </tr>
+        </thead>
+        <tbody id="table_cntFinished">
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
 <script>
-    function myFunction(i) {
+    var data;
+
+    function myFunctionJoin(i) {
         window.location = href="LiveSporsmalsside.html?i=" + i;
     }
 
-    $(document).ready(function(){
+    function myFunctionResults(i) {
+        window.location = href="LiveScoreboard.html?i=" + i;
+    }
 
+    function fillTable(){
+        var html="";
+        for(var i=0; i<data.length;i++){
+            html += "<tr>" +
+                    "<td>" + data[i].name + "</td>" +
+                    "<td>" + new Date(data[i].time) + "</td>" +
+                    "<td><button onclick='myFunctionResults(" + data[i].i + ")' class ='btn btn-default'>" + 'Results' + "</button></td>" +
+                    "<td><button onclick='myFunctionJoin(" + data[i].i + ")' class ='btn btn-default' >" + 'Join!'+ "</button></td>" +
+                    "</tr>";
+        }
+        $("#table_cntNotstarted").html(html);
+    }
+
+    $(document).ready(function(){
         $.ajax({
             url: 'rest/Quiz',
             type: 'GET',
@@ -79,22 +123,46 @@
             dataType: 'json',
             success: function(result){
                 data = result;
-                console.log(result);
-                var html="";
-                for(var i=0; i<data.length;i++){
-                    html += "<tr><td>" + data[i].name + "</td><td>" + new Date(data[i].time) + "</td>" + "<td><button class ='btn btn-default' onclick = 'myFunction(" + i + ")' >" + 'Join!'+
-                            "</button></td></tr>";
+                for(var i = 0; i < data.length; i++){
+                    data[i].i = i;
                 }
-                $("#table_cnt").html(html);
+                console.log(result);
+                data.sort(compare);
+                console.log(data);
+                fillTable();
             }
         }, 1000);
-
     });
+
+    function compare(a, b){
+        return new Date(a.time).getTime() - new Date(b.time).getTime();
+    }
+/**
+   function giveNick() {
+       var score = null;
+       var nick;
+       var person = prompt("Please enter a name: ", "Give yourself a cool nickname!");
+       console.log(person)
+       if (person == null || person == "") {
+           alert("Cancelled or written an false nick");
+       } else {
+           nick = person;
+           $.ajax({
+               url: 'rest/Quiz/Score',
+               type: 'POST',
+               contentType: 'application/json; charset=utf-8',
+               dataType: 'json',
+               data: JSON.stringify({
+                   kallenavn: nick,
+                   poengsum: score
+               })
+           })
+       }
+   }
+    */
+
 </script>
 
-<div style="position:relative">
-    <p style="position: fixed; bottom: 0; width: 100%; text-align: center;"> Designed by Oda Steinland Skaug</p>
-</div>
 
 <style type = "text/css">
     body{

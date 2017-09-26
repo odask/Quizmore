@@ -5,16 +5,14 @@ import java.io.Serializable;
 /**
  * Created by odasteinlandskaug on 21.09.2017.
  */
-public class Score implements Serializable {
-    public int poengsum;
+public class Score{
+
+    public String poengsum;
     public String kallenavn;
 
-    public Score(int poengsum, String kallenavn){
-        this.poengsum=poengsum;
-        this.kallenavn = kallenavn;
-    }
+    public Score(){}
 
-    public int getPoengsum(){
+    public String getPoengsum(){
         return poengsum;
     }
 
@@ -22,7 +20,7 @@ public class Score implements Serializable {
         this.kallenavn = kallenavn;
     }
 
-    public void setPoengsum(int poengsum) {
+    public void setPoengsum(String poengsum) {
         this.poengsum = poengsum;
     }
 

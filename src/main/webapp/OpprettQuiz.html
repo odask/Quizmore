@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +11,7 @@
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <link rel="stylesheet" href="Style.css">
     <link rel="stylesheet" href="OpprettQuiz.css">
-    <script type="text/javascript" src="OpprettQuiz.js"></script>
+    <script src="OpprettQuiz.js"></script>
 
 </head>
 <body>
@@ -63,47 +64,59 @@
     </div>
 </div>
 
+<div class="NameAndTime">
+    <div class="col-xs-4 col-xs-offset-4" >
+        <div class="input-group" >
+
+            <span class="input-group-addon" id="sizing-addon3">Time per question</span>
+            <input id ="quizTimeprQues" name="quizTimeprQues" type="text" class="form-control" placeholder="Write in ms" aria-describedby="TimePrQuestion">
+
+
+        </div>
+    </div>
+</div>
+
 
 <div id="super_div" class="col-xs-4 col-xs-offset-4">
-        <div id="qstion" class = "quizmaking">
+    <div id="qstion" class = "quizmaking">
 
-                <h1></h1>
-                <div class="input-group" data-type="qst">
-                    <span class="input-group-addon">Question</span>
-                    <input id="quizQuestion" name= "quizQuestion" type="text" class="form-control" placeholder="What do you want to ask?" aria-describedby="Question">
-                </div>
+        <h1></h1>
+        <div class="input-group" data-type="qst">
+            <span class="input-group-addon">Question</span>
+            <input id="quizQuestion" name= "quizQuestion" type="text" class="form-control" placeholder="What do you want to ask?" aria-describedby="Question">
+        </div>
 
 
-                <div id="answer_reapeat" data-type="ans">
-                        <div class="input-group">
+        <div id="answer_reapeat" data-type="ans">
+            <div class="input-group">
                             <span class="input-group-addon">
                         <input name="checkbox" type="checkbox" aria-label="Checkbox for following text input">
                             </span>
-                        <input  name="answer" type="text" class="form-control" placeholder="Answer" aria-label="Text input with checkbox">
-                        </div>
+                <input  name="answer" type="text" class="form-control" placeholder="Answer" aria-label="Text input with checkbox">
+            </div>
 
-                        <div class="input-group">
+            <div class="input-group">
                             <span class="input-group-addon">
                             <input name ="checkbox" type="checkbox" aria-label="Checkbox for following text input">
                                 </span>
-                            <input name= "answer" type="text" class="form-control" placeholder="Answer" aria-label="Text input with checkbox">
-                        </div>
+                <input name= "answer" type="text" class="form-control" placeholder="Answer" aria-label="Text input with checkbox">
+            </div>
 
-                        <div class="input-group">
+            <div class="input-group">
                             <span class="input-group-addon">
                             <input name="checkbox" type="checkbox" aria-label="Checkbox for following text input">
                                 </span>
-                            <input name="answer" type="text" class="form-control" placeholder="Answer" aria-label="Text input with checkbox">
-                        </div>
+                <input name="answer" type="text" class="form-control" placeholder="Answer" aria-label="Text input with checkbox">
+            </div>
 
-                        <div class="input-group">
+            <div class="input-group">
                             <span class="input-group-addon">
                             <input name ="checkbox" type="checkbox" aria-label="Checkbox for following text input">
                                 </span>
-                            <input name= "answer" type="text" class="form-control" placeholder="Answer" aria-label="Text input with checkbox">
-                        </div>
-                </div>
+                <input name= "answer" type="text" class="form-control" placeholder="Answer" aria-label="Text input with checkbox">
+            </div>
         </div>
+    </div>
 
 </div>
 
@@ -122,11 +135,8 @@
 
 
 <script>
-
     $("#done_quiz").click(function () {
-
         var o = [];
-
         o.questions = [];
         o.answers = [];
         o.checkboxes = [];
@@ -151,7 +161,6 @@
                 $(quizCheckboxes[i+3]).is(":checked") ? 1 : 0
             ]);
         }
-
         var qsts = [];
         for(i = 0; i < quizQuestions.length; i++){
             qsts.push({
@@ -160,7 +169,6 @@
                 checkboxes: check[i]
             })
         }
-
         console.log(qsts);
 
         $.ajax({
@@ -168,16 +176,16 @@
             type: 'POST',
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
-            data: JSON.stringify({
-                name: $("#quizname").val(),
-                time: $("#quizTime").val(),
-                questions: qsts
-            })
+            data:
+                JSON.stringify({
+                    name: $("#quizname").val(),
+                    time: $("#quizTime").val(),
+                    timePerQuestion: $("#quizTimeprQues").val(),
+                    questions: qsts
+                })
         });
         window.location.href = "ListeOverQuiz.html";
     });
-
-
 </script>
 
 
@@ -186,5 +194,4 @@
     body{
         background-color: orangered;
     }
-
 </style>
