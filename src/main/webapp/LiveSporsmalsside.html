@@ -30,11 +30,8 @@
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="index.html">Home</a></li>
-                <li><a href="ListeOverQuiz.html">List of Quiz</a></li>
+                <li><a href="ListOverQuiz.html">List of Quiz</a></li>
                 <li><a href="OpprettQuiz.html">Create Quiz</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="LogIn.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
             </ul>
         </div>
     </div>
@@ -42,13 +39,10 @@
 
 <div class="jumbotron">
     <h1 style= "color: #333" align="center"> Live quizsite</h1>
-
     <h4 style= "color: #333" align="center"> Next quiz will start in:</h4>
-        <h1></h1>
-    <div align="center" id= "nextquestion" style="font-size: x-large"></div>
 </div>
 
-
+<div align="center" id= "nextquestion" style="font-size: x-large"></div>
 <h3></h3>
 <div  id = "answerDiv"  align="center" style="font-size: x-large"></div>
 
@@ -118,7 +112,7 @@
                         }),
                     });
                     clearInterval(intervall);
-                    window.location.href="ListeOverQuiz.html"
+                    window.location.href="ListOverQuiz.html"
 
                 }else{
                     countScore();
@@ -180,7 +174,7 @@ $(document).ready(function() {
     var person = prompt("Please enter a name: ", "Give yourself a cool nickname!");
     console.log(person)
     if (person == null || person == "") {
-        window.location.href = "ListeOverQuiz.html";
+        window.location.href = "ListOverQuiz.html";
     } else {
         nick = person;
     }
@@ -189,15 +183,15 @@ $(document).ready(function() {
 function countScore() {
         var tableCheckboxes = data.questions[count].checkboxes;
 
-        var inedx = tableCheckboxes.indexOf(1);
+        var index = tableCheckboxes.indexOf(1);
         var radios = $("input[name = questionAnswer]:checked").val();
 
-        if(inedx == radios) {
+        if(index == radios) {
            score = score + 100;
-            alert("Riktig! Scoren er nå: " + score);
+            alert("Correct! Your score is now: " + score);
 
         } else {
-            alert("Feil svar!")
+            alert("Wrong answer...")
         }
 }
 

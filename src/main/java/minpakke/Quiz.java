@@ -30,7 +30,6 @@ public class Quiz {
     public void addScore(@PathParam("name") String name, Score score){
         System.out.println(score);
         quiz.get(name).addScore(score);
-
     }
 
     @GET
@@ -39,19 +38,4 @@ public class Quiz {
     public ArrayList<Score> getScore(@PathParam("name") String name){
         return quiz.get(name).getScores();
     }
-
- /**
- @GET
- @Produces(MediaType.APPLICATION_JSON)
- public Collection<Score> getScore(){
- return score.values();
- }
-
-  @POST
-  @Path("/{quizName}")
-  @Consumes(MediaType.APPLICATION_JSON)
-  public void addNick(@PathParam("quizName") String qn, String nick){
-  quiz.get(qn).addNick(nick);
-  }
- */
 }

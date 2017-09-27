@@ -34,11 +34,8 @@
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="index.html">Home</a></li>
-                <li><a href="ListeOverQuiz.html">List of Quiz</a></li>
+                <li><a href="ListOverQuiz.html">List of Quiz</a></li>
                 <li><a href="OpprettQuiz.html">Create Quiz</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="LogIn.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
             </ul>
         </div>
     </div>
@@ -47,22 +44,24 @@
 <div class ="jumbotron" >
     <h1 style= "color: #333" align="center">Create new Quiz</h1>
     <h5 style= "color: #333" align="center"> Add questions with possible answers, remember to mark the answer, or answers, that is correct.</h5>
-    <h5 style= "color: #333" align="center">You can add up to thirty questions. </h5>
+    <h5 style= "color: #333" align="center">You can add as many questions as you like. </h5>
 </div>
 
 <div class="NameAndTime">
-    <div class="col-xs-4 col-xs-offset-4" >
-        <div class="input-group" >
+    <div class="col-xs-4 col-xs-offset-4">
 
+        <div class="input-group" >
             <span class="input-group-addon" id="sizing-addon1">Name</span>
             <input id ="quizname" name="quizName" type="text" class="form-control" placeholder="Quizname">
-
+        </div>
+        <div class="input-group" >
             <span class="input-group-addon" id="sizing-addon2">Time</span>
             <input id ="quizTime" name="quizTime"  class="form-control" type="datetime-local">
 
         </div>
     </div>
 </div>
+
 
 <div class="NameAndTime">
     <div class="col-xs-4 col-xs-offset-4" >
@@ -117,7 +116,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 <h1></h1>
@@ -180,7 +178,7 @@
                     questions: qsts
                 })
         });
-        window.location.href = "ListeOverQuiz.html";
+        window.location.href = "ListOverQuiz.html";
     });
 </script>
 

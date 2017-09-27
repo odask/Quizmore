@@ -1,9 +1,7 @@
 package minpakke;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+
 
 /**
  * Created by odasteinlandskaug on 19.09.2017.

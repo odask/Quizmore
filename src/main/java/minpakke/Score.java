@@ -28,5 +28,4 @@ public class Score{
         return kallenavn;
     }
 
-
 }
