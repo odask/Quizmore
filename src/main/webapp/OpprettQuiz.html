@@ -45,9 +45,9 @@
 </nav>
 
 <div class ="jumbotron" >
-    <h1 align="center">Create new Quiz</h1>
-    <h5 align="center"> Add questions with possible answers, remember to mark the answer, or answers, that is correct.</h5>
-    <h5 align="center">You can add up to thirty questions. </h5>
+    <h1 style= "color: #333" align="center">Create new Quiz</h1>
+    <h5 style= "color: #333" align="center"> Add questions with possible answers, remember to mark the answer, or answers, that is correct.</h5>
+    <h5 style= "color: #333" align="center">You can add up to thirty questions. </h5>
 </div>
 
 <div class="NameAndTime">
@@ -55,10 +55,10 @@
         <div class="input-group" >
 
             <span class="input-group-addon" id="sizing-addon1">Name</span>
-            <input id ="quizname" name="quizName" type="text" class="form-control" placeholder="Quizname" aria-describedby="Name">
+            <input id ="quizname" name="quizName" type="text" class="form-control" placeholder="Quizname">
 
             <span class="input-group-addon" id="sizing-addon2">Time</span>
-            <input id ="quizTime" name="quizTime" class="form-control" type="datetime-local">
+            <input id ="quizTime" name="quizTime"  class="form-control" type="datetime-local">
 
         </div>
     </div>
@@ -69,7 +69,7 @@
         <div class="input-group" >
 
             <span class="input-group-addon" id="sizing-addon3">Time per question</span>
-            <input id ="quizTimeprQues" name="quizTimeprQues" type="text" class="form-control" placeholder="Write in ms" aria-describedby="TimePrQuestion">
+            <input id ="quizTimeprQues" name="quizTimeprQues" type="text" class="form-control" placeholder="Write in ms" >
 
 
         </div>
@@ -124,15 +124,11 @@
 
 <div class="container">
     <div  class="buttons_container">
-        <button id="button_repeat" class="btn btn-info " role="button">Add new question </button>
-        <a id="done_quiz" class="btn btn-info" role="button" >Done</a>
+        <button id="cancel" class="btn btn-basic" role="button"  onclick="location.href='index.html'" >Cancel</button>
+        <button id="button_repeat" class="btn btn-basic " role="button">Add new question </button>
+        <button id="done_quiz" class="btn btn-basic " role="button" >Done</button>
     </div>
 </div>
-
-<div style="position:relative">
-    <p style="position: fixed; bottom: 0; width: 100%; text-align: center;"> Designed by Oda Steinland Skaug</p>
-</div>
-
 
 <script>
     $("#done_quiz").click(function () {
@@ -187,7 +183,6 @@
         window.location.href = "ListeOverQuiz.html";
     });
 </script>
-
 
 
 <style type = "text/css">

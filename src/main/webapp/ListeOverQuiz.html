@@ -41,25 +41,23 @@
 </nav>
 
 <div class="jumbotron">
-    <h1 align="center">List of Quiz</h1>
-    <h5 align="center">Here you can see a list of different quiz. You can choose if you want to see the results of the quiz that has already finished,</h5>
-    <h5 align="center">or you can join a quiz! Remember to see when the quiz is starting so you are ready.</h5>
+    <h1 style= "color: #333" align="center">List of Quiz</h1>
+    <h5 style= "color: #333" align="center">Here you can see a list of different quizzes. You can choose if you want to see the results of a quiz already finished,</h5>
+    <h5 style= "color: #333" align="center">or you can join a quiz! Remember to see when the quiz is starting so you're ready.</h5>
 </div>
 
-<h3 align="center">List of future quizes</h3>
+<h3 align="center" >List of future quizes</h3>
 <div class="container">
-    <table id= "quizTabelNotStarted" class="table table-striped">
+    <table id= "quizTabelNotStarted" class="table">
         <thead>
         <tr>
             <th>Name of quiz</th>
             <th>Start time</th>
-            <th>Results</th>
-            <th>Join!</th>
+            <th>Join quiz</th>
         </tr>
         </thead>
-        <tbody id="table_cntNotstarted">
+        <tbody id="table_cntNotstarted" style="background-color: white">
         <tr>
-            <td></td>
             <td></td>
             <td></td>
             <td></td>
@@ -70,18 +68,16 @@
 
 <h3 align="center">List of previous quizes</h3>
 <div class="container">
-    <table id= "quizTablefinished" class="table table-striped">
+    <table id= "quizTablefinished" class="table">
         <thead>
         <tr>
             <th>Name of quiz</th>
             <th>Start time</th>
-            <th>Results</th>
-
+            <th>Results </th>
         </tr>
         </thead>
-        <tbody id="table_cntFinished">
+        <tbody id="table_cntFinished" style="background-color: white">
         <tr>
-            <td></td>
             <td></td>
             <td></td>
             <td></td>
@@ -102,18 +98,32 @@
         window.location = href="LiveScoreboard.html?i=" + i;
     }
 
-    function fillTable(){
-        var html="";
-        for(var i=0; i<data.length;i++){
-            html += "<tr>" +
-                    "<td>" + data[i].name + "</td>" +
-                    "<td>" + new Date(data[i].time) + "</td>" +
-                    "<td><button onclick='myFunctionResults(" + data[i].i + ")' class ='btn btn-default'>" + 'Results' + "</button></td>" +
-                    "<td><button onclick='myFunctionJoin(" + data[i].i + ")' class ='btn btn-default' >" + 'Join!'+ "</button></td>" +
-                    "</tr>";
+    function fillTable() {
+        var html1 = "";
+        var html2 = "";
+        for (var i = 0; i < data.length; i++) {
+            if ((new Date(data[i].time).getTime()) < (new Date().getTime())) {
+                {
+                    html1 +="<tr>" +
+                            "<td>" + data[i].name + "</td>" +
+                            "<td>" + new Date(data[i].time) + "</td>" +
+                            "<td><button onclick='myFunctionResults(" + data[i].i + ")' class ='btn btn-basic'>" + 'Results' + "</button></td>" +
+                            "</tr>";
+                }
+            } else {
+                {
+                    html2 +="<tr>" +
+                            "<td>" + data[i].name + "</td>" +
+                            "<td>" + new Date(data[i].time) + "</td>" +
+                            "<td><button onclick='myFunctionJoin(" + data[i].i + ")' class ='btn btn-basic' >" + 'Join' + "</button></td>" +
+                            "</tr>";
+                }
+            }
+            $("#table_cntFinished").html(html1);
+            $("#table_cntNotstarted").html(html2);
         }
-        $("#table_cntNotstarted").html(html);
     }
+
 
     $(document).ready(function(){
         $.ajax({
@@ -126,9 +136,7 @@
                 for(var i = 0; i < data.length; i++){
                     data[i].i = i;
                 }
-                console.log(result);
                 data.sort(compare);
-                console.log(data);
                 fillTable();
             }
         }, 1000);
@@ -137,29 +145,6 @@
     function compare(a, b){
         return new Date(a.time).getTime() - new Date(b.time).getTime();
     }
-/**
-   function giveNick() {
-       var score = null;
-       var nick;
-       var person = prompt("Please enter a name: ", "Give yourself a cool nickname!");
-       console.log(person)
-       if (person == null || person == "") {
-           alert("Cancelled or written an false nick");
-       } else {
-           nick = person;
-           $.ajax({
-               url: 'rest/Quiz/Score',
-               type: 'POST',
-               contentType: 'application/json; charset=utf-8',
-               dataType: 'json',
-               data: JSON.stringify({
-                   kallenavn: nick,
-                   poengsum: score
-               })
-           })
-       }
-   }
-    */
 
 </script>
 

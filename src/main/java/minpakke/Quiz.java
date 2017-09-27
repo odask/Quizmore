@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 @Path("/Quiz")
 public class Quiz {
     private static HashMap<String, Quiz_opprett> quiz = new HashMap<String, Quiz_opprett>();
-    private static HashMap<String, Score> score = new HashMap<String, Score>();
+
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -24,19 +24,20 @@ public class Quiz {
         quiz.put(quizopprett.getName(), quizopprett);
     }
 
-
     @POST
-    @Path("/Score")
+    @Path("/{name}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void addNickName(Score scoress){
-        score.put(scoress.getKallenavn(), scoress);
+    public void addScore(@PathParam("name") String name, Score score){
+        System.out.println(score);
+        quiz.get(name).addScore(score);
+
     }
 
     @GET
-    @Path("/Score")
+    @Path("/{name}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Collection<Score> getScore(){
-        return score.values();
+    public ArrayList<Score> getScore(@PathParam("name") String name){
+        return quiz.get(name).getScores();
     }
 
  /**

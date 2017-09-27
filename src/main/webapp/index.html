@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="Style.css"><link rel="stylesheet" href="HovedSide.css">
+    <link rel="stylesheet" href="Style.css">
+    <link rel="stylesheet" href="HovedSide.css">
 
 </head>
 <body>
@@ -41,22 +42,18 @@
 </nav>
 
 <div class="jumbotron">
-    <h1 align="center"> Quizmore</h1>
-    <h5 align="center"> Welcome to Quizmore! Choose where you want to go from here!</h5>
+    <h1 style="color:#333" align="center"> Quizmore</h1>
+    <h5 style="color:#333" align="center"> Welcome to Quizmore! Choose where you want to go from here!</h5>
 </div>
+
 
 <div class="container">
-
     <div class="buttons">
-        <a href="OpprettQuiz.html" class="btn btn-default btn-lg" role="button">Create Quiz</a>
-        <a href="ListeOverQuiz.html" class="btn btn-default btn-lg" role="button">Join Quiz</a>
+        <button onclick="location.href='OpprettQuiz.html'" class="btn btn-basic btn-lg" role="button">Create Quiz</button>
+        <button onclick="location.href='ListeOverQuiz.html'" class="btn btn-basic btn-lg" role="button">Join Quiz</button>
     </div>
-
 </div>
 
-<div style="position:relative">
-    <p style="position: fixed; bottom: 0; width: 100%; text-align: center;"> Designed by Oda Steinland Skaug</p>
-</div>
 
 <style type = "text/css">
     body{

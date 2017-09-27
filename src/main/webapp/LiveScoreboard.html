@@ -8,7 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="Style.css">
-    <link rel="stylesheet" href="LiveScoreboard.css">
+
 
 </head>
 <body>
@@ -43,15 +43,15 @@
 </nav>
 
 <div class="jumbotron">
-    <h1 align="center">Scoreboard</h1>
-    <h5 align="center">Results for choosen quiz</h5>
+    <h1 style= "color: #333" align="center">Scoreboard</h1>
+    <h5 style= "color: #333" align="center">Results for choosen quiz</h5>
 </div>
 
 
 
 
 <div class="container">
-    <table id= "totalResultTable" class="table table-striped">
+    <table id= "totalResultTable" class="table" >
         <thead>
         <tr>
             <th>Position</th>
@@ -59,7 +59,7 @@
             <th>Score</th>
         </tr>
         </thead>
-        <tbody id="resultTable">
+        <tbody id="resultTable" style="background-color: white">
         <tr>
             <td></td>
             <td></td>
@@ -75,37 +75,37 @@
 <script>
 function fillResults() {
     var html="";
-    for(var i=0; i<data.length;i++){
+    for(var i=0; i<data.scores.length;i++){
         html += "<tr>" +
                 "<td>" + (i+1) + "</td>" +
-                "<td>" + data[i].kallenavn + "</td>" +
-                "<td>" + data[i].poengsum + "</td>" +
+                "<td>" + data.scores[i].kallenavn + "</td>" +
+                "<td>" + data.scores[i].poengsum + "</td>" +
                 "</tr>";
     }
     $("#resultTable").html(html);
 }
 
 $.ajax({
-    url: 'rest/Quiz/Score',
+    url: 'rest/Quiz',
     type: 'GET',
     contentType: 'application/json; charset=utf-8',
     dataType: 'json',
 
     success: function (result) {
-    data = result;
-    console.log(result);
-        fillResults()
+        data = result[Number(("" + window.location).split("=")[1])];
+        data.scores.sort(compare);
+        fillResults();
+        setInterval(fillResults, 1000);
+    }
+});
 
+function compare(a, b){
+    return b.poengsum - a.poengsum;
 }
-})
 </script>
 
 <div align="center" class="back_button">
-    <a type="button" class="btn btn-default" href="ListeOverQuiz.html">Go back</a>
-</div>
-
-<div style="position:relative">
-    <p style="position: fixed; bottom: 0; width: 100%; text-align: center;"> Designed by Oda Steinland Skaug</p>
+    <button type="button" class="btn btn-basic" onclick="location.href='ListeOverQuiz.html'">Go back</button>
 </div>
 
 <style type = "text/css">

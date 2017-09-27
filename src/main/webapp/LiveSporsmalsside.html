@@ -41,58 +41,87 @@
 </nav>
 
 <div class="jumbotron">
-    <h1 align="center"> Live quizsite</h1>
-    <h5 align="center"> Next quiz will start in: </h5>
+    <h1 style= "color: #333" align="center"> Live quizsite</h1>
+
+    <h4 style= "color: #333" align="center"> Next quiz will start in:</h4>
+        <h1></h1>
+    <div align="center" id= "nextquestion" style="font-size: x-large"></div>
 </div>
 
 
-<div  id = "answerDiv"  align="center"></div>
-
-<button class="submit" onclick="return countScore();" type="submit">Submit</button>
+<h3></h3>
+<div  id = "answerDiv"  align="center" style="font-size: x-large"></div>
 
 <!-- Display the countdown timer in an element -->
 <div id= "nextQuiz" class="nextQuiz">
     <p id="timerLiveQuizNextQuiz"></p>
 </div>
 
-<div align="left" id= "nextquestion"></div>
+
+
 
 <script>
-var count = 0;
-var data;
+    var count = 0;
+    var data;
+    var score = 0;
+    var nick;
+    var name;
+
+
+    $(document).ready(function(){
+        $.ajax({
+            url: 'rest/Quiz',
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function(result){
+                data = result;
+            }
+        }, 1000);
+    });
 
     function getQuestionHtml() {
 
         var tableQuestions = data.questions[count];
         var tableAnswers = data.questions[count].answers;
-        var tableCheckboxes = data.questions[count].checkboxes;
-
 
         var html = tableQuestions.questions + "<br>";
         for (var i = 0; i < tableAnswers.length; i++) {
             html += (i + 1) + ". " + "<input type= 'radio'  name='questionAnswer' value =' " + i + " ' >" + "  " + tableAnswers[i] + "<br>";
-        }
+            }
         return html;
 
     }
 
     function myfunctionGetQuestions() {
         data = data[Number(("" + window.location).split("=")[1])];
-        console.log(data.name);
 
         $("#answerDiv").html(getQuestionHtml());
 
         var answersLength = data.questions.length;
-
         var timeQuestion = data.timePerQuestion;
+
         var intervall = setInterval(function () {
             document.getElementById("nextquestion").innerHTML = timeQuestion;
             if (timeQuestion == 0) {
 
                 if(count==(answersLength-1)) {
+                    countScore();
+                    $.ajax({
+                        url: 'rest/Quiz/' + data.name,
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        data: JSON.stringify({
+                            kallenavn: nick,
+                            poengsum: score
+                        }),
+                    });
                     clearInterval(intervall);
+                    window.location.href="ListeOverQuiz.html"
 
                 }else{
+                    countScore();
                     count++;
                     timeQuestion = data.timePerQuestion;
                     $("#answerDiv").html(getQuestionHtml());
@@ -101,7 +130,6 @@ var data;
             } else {
                 timeQuestion--;
             }
-            console.log("count=" + count + ", timeQuestion=" + timeQuestion);
         }, 1000);
     }
 
@@ -129,7 +157,7 @@ function timeLeftTilQuiz(){
 
         if (distance < 0) {
             clearInterval(x);
-            document.getElementById("nextQuiz").innerHTML = "Quizen er i gang!"
+            document.getElementById("nextQuiz").innerHTML = "Quiz in progress, time remaining on question:";
             myfunctionGetQuestions();
 
         }
@@ -143,49 +171,37 @@ function timeLeftTilQuiz(){
         dataType: 'json',
 
         success: function (result) {
-            data = result;
-            console.log(result);
+            data = result;;
             timeLeftTilQuiz();
         }
     })
 
 $(document).ready(function() {
-    var nick;
     var person = prompt("Please enter a name: ", "Give yourself a cool nickname!");
     console.log(person)
     if (person == null || person == "") {
-        alert("Cancelled or written an false nick");
+        window.location.href = "ListeOverQuiz.html";
     } else {
         nick = person;
-        if (nick) {
-            $.ajax({
-                url: 'rest/Quiz/Score',
-                type: 'POST',
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-                data: JSON.stringify({
-                    kallenavn: nick,
-                    poengsum: "0"
-                }),
-                success: console.log,
-                error: console.log
-            });
-        }
     }
-})
+});
 
 function countScore() {
-    var score = document.querySelector('input[name="questionAnswer"]:checked').value;
-    alert(score + ' was selected!');
+        var tableCheckboxes = data.questions[count].checkboxes;
+
+        var inedx = tableCheckboxes.indexOf(1);
+        var radios = $("input[name = questionAnswer]:checked").val();
+
+        if(inedx == radios) {
+           score = score + 100;
+            alert("Riktig! Scoren er nå: " + score);
+
+        } else {
+            alert("Feil svar!")
+        }
 }
 
-
 </script>
-
-
-<div style="position:relative">
-    <p style="position: fixed; bottom: 0; width: 100%; text-align: center;"> Designed by Oda Steinland Skaug</p>
-</div>
 
 <style type = "text/css">
     body{

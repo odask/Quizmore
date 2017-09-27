@@ -2,6 +2,7 @@ package minpakke;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -12,8 +13,17 @@ public class Quiz_opprett {
     private String time;
     private String timePerQuestion;
     private Question[] questions;
+    private ArrayList<Score> scores = new ArrayList<>();
 
     public Quiz_opprett(){
+    }
+
+    public void setScores(ArrayList<Score> scores) {
+        this.scores = scores;
+    }
+
+    public ArrayList<Score> getScores() {
+        return scores;
     }
 
     public String getTime() {
@@ -49,4 +59,19 @@ public class Quiz_opprett {
     public void setQuestions(Question[] questions) {
         this.questions = questions;
     }
+
+    public void addScore(Score score){
+        System.out.println(scores.size());
+        scores.add(score);
+        System.out.println(scores.size());
+    }
+
+    public void updateScore(String nick, int score){
+        for(int i = 0; i < scores.size(); i++){
+            if(nick.equals(scores.get(i))){
+                scores.get(i).setPoengsum(score);
+            }
+        }
+    }
+
 }

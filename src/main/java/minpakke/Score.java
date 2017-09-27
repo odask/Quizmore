@@ -7,12 +7,12 @@ import java.io.Serializable;
  */
 public class Score{
 
-    public String poengsum;
+    public int poengsum;
     public String kallenavn;
 
     public Score(){}
 
-    public String getPoengsum(){
+    public int getPoengsum(){
         return poengsum;
     }
 
@@ -20,12 +20,13 @@ public class Score{
         this.kallenavn = kallenavn;
     }
 
-    public void setPoengsum(String poengsum) {
+    public void setPoengsum(int poengsum) {
         this.poengsum = poengsum;
     }
 
     public String getKallenavn(){
         return kallenavn;
     }
+
 
 }
